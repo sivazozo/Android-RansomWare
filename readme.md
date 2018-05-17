@@ -7,12 +7,13 @@ The api is used in a android application.
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
 
-### Prerequisites
+##API Python
+#### Prerequisites
 
 For use the project you must install python 3.X in your host or computer and lanch the command.
 
 
-### Installing
+#### Installing
 
 First you have to install the lib needed by the application
 
@@ -21,7 +22,7 @@ pip install -r requirements.txt
 ```
 
 
-## Launch the application
+#### Launch the application
 
 We can lanch the application in two mode :
 
@@ -47,7 +48,7 @@ The keywords use in mode :
 * production
 * default
 
-## Project strcuture
+#### Project strcuture
 
 The project structre :
 
@@ -64,21 +65,34 @@ The project structre :
     └── runserver.py        # Script for run the flask application
 
 
-## Built With
+#### Built With
 
 * [Flaks](http://flask.pocoo.org/) - The api framework use
 * [Pony](https://ponyorm.com/) - The orm use
 * [Pycryptodome](http://pycryptodome.readthedocs.io/en/latest/index.html) - Used to generate RSA key
 * [Sqlite](https://www.sqlite.org/index.html) - Database use
 
-## Doc Api :
+#### Doc Api :
 
 * [Api doc](https://documenter.getpostman.com/view/587840/crypto-flask/RW86KpuK)
 
 
+
+
+
+## Android App
+
+### Built With
+* [Butter Knife](https://github.com/JakeWharton/butterknife) - Bind Android views and callbacks to fields and methods
+* [google-gson](https://github.com/google/gson) - A Java serialization/deserialization library to convert Java Objects into JSON and back
+* [Retrofit](https://github.com/square/retrofit) - Type-safe HTTP client for Android and Java
+
+
+
+
 ## Authors
 
-* [**Mohson BUTT**](https://github.com/Mohsan1995/iot-communicating-object)
+* [**Mohson BUTT**](https://github.com/Mohsan1995)
 * [**Quentin LEPRAT**](https://github.com/CrabeMan)
 
 
