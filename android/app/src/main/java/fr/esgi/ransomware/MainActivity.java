@@ -3,6 +3,8 @@ package fr.esgi.ransomware;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.os.AsyncTask;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -10,7 +12,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -26,6 +27,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import fr.esgi.ransomware.task.DetonateTask;
+import fr.esgi.ransomware.task.RescueTask;
+import fr.esgi.ransomware.task.Task;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -39,6 +43,9 @@ public class MainActivity extends AppCompatActivity {
 
     @BindView(R.id.main_act_frame_rescue)
     View rootRescue;
+
+    @BindView(R.id.main_act_frame_loader)
+    View rootLoader;
 
     @BindView(R.id.main_act_recycler_logs)
     RecyclerView recyclerLogs;
@@ -71,31 +78,29 @@ public class MainActivity extends AppCompatActivity {
                 if (s != null) {
                     logAdapter.logs.add(s);
                     logAdapter.notifyDataSetChanged();
+                    recyclerLogs.scrollToPosition(logAdapter.getItemCount() - 1);
                 }
             }
         };
 
 
-
-        boolean isRekt = Util.isRekt(getApplicationContext());
-        invalidateButton(isRekt);
+        invalidateButton();
     }
 
     @OnClick(R.id.main_act_btn_detonate)
     public void detonate() {
         logAdapter.logs.clear();
-        Detonate detonate = new Detonate(getApplicationContext(), handler);
-        detonate.start();
+        ProcessTask processTask = new MainActivity.ProcessTask();
+        processTask.execute(new DetonateTask(getApplicationContext(), handler));
     }
 
 
     @OnClick(R.id.main_act_btn_rescue)
     public void rescue() {
         logAdapter.logs.clear();
-        Rescue rescue = new Rescue(getApplicationContext(), handler);
-        rescue.start();
+        ProcessTask processTask = new MainActivity.ProcessTask();
+        processTask.execute(new RescueTask(getApplicationContext(), handler));
     }
-
 
 
     @OnClick(R.id.main_act_btn_grant_permissions)
@@ -104,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private boolean needGrantPermissions() {
-        String[] permsAll = new String[] {
+        String[] permsAll = new String[]{
                 Manifest.permission.READ_PHONE_STATE,
 
                 Manifest.permission.READ_CONTACTS,
@@ -148,7 +153,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void invalidateButton(boolean isRekt) {
+    private void invalidateButton() {
+        boolean isRekt = Util.isRekt(getApplicationContext());
         rootDetonate.setVisibility(isRekt ? View.GONE : View.VISIBLE);
         rootRescue.setVisibility(isRekt ? View.VISIBLE : View.GONE);
     }
@@ -199,6 +205,39 @@ public class MainActivity extends AppCompatActivity {
 
         public void bind(String log) {
             textView.setText(log);
+        }
+    }
+
+    class ProcessTask extends AsyncTask<Task, Void, Void> {
+        @Override
+        protected void onPreExecute() {
+            rootLoader.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            onEnd();
+        }
+
+        @Override
+        protected void onCancelled(Void aVoid) {
+            onEnd();
+        }
+
+        private void onEnd() {
+            rootLoader.setVisibility(View.GONE);
+            invalidateButton();
+        }
+
+        @Override
+        protected Void doInBackground(Task... tasks) {
+            try {
+                tasks[0].run();
+            } catch (Exception e) {
+                e.printStackTrace();
+                Util.sendLogMessage(handler, e.getMessage());
+            }
+            return null;
         }
     }
 

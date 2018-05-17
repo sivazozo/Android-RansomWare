@@ -10,4 +10,4 @@
     android:singleLine="true"
     android:lines="1"
     android:maxLines="1"
-    android:ellipsize="start"/>
+    android:ellipsize="start" />

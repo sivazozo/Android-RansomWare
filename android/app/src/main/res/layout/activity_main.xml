@@ -22,12 +22,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <Button
+                <TextView
                     android:id="@+id/main_act_btn_detonate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:gravity="center"
                     android:layout_gravity="center"
-                    android:text="Detonate"/>
+                    android:background="@drawable/background_red"
+                    android:textColor="@android:color/white"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:text="Detonate" />
 
             </FrameLayout>
 
@@ -36,12 +40,33 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:visibility="gone">
-                <Button
+
+
+                <TextView
                     android:id="@+id/main_act_btn_rescue"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:gravity="center"
                     android:layout_gravity="center"
-                    android:text="Rescue"/>
+                    android:background="@drawable/background_green"
+                    android:textColor="@android:color/white"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:text="Rescue" />
+
+            </FrameLayout>
+
+
+            <FrameLayout
+                android:id="@+id/main_act_frame_loader"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#78000000"
+                android:visibility="gone">
+
+                <ProgressBar
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_gravity="center" />
             </FrameLayout>
         </FrameLayout>
 
@@ -56,8 +81,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Logs: "
-                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:text="Logs: " />
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/main_act_recycler_logs"
                 android:layout_width="match_parent"
@@ -66,13 +92,7 @@
         </LinearLayout>
 
 
-
-
-
-
-
     </LinearLayout>
-
 
 
     <LinearLayout
@@ -88,14 +108,14 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/please_grant_permissions"/>
+            android:text="@string/please_grant_permissions" />
 
         <Button
             android:id="@+id/main_act_btn_grant_permissions"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
-            android:text="Grant permission"/>
+            android:text="Grant permission" />
 
     </LinearLayout>
 

@@ -19,7 +19,7 @@ public interface ApiService {
     @GET("mobile/{uuid}")
     Call<RescueResponse> rescue(@Path("uuid") String uuid);
 
-    class Register {
+    public class Register {
         private String imei;
 
         @SerializedName("os_version")
@@ -90,7 +90,7 @@ public interface ApiService {
         }
 
 
-        class Response {
+        public class Response {
             private String uuid;
 
             @SerializedName("public_key")
@@ -107,7 +107,7 @@ public interface ApiService {
     }
 
 
-    class RescueResponse {
+    public class RescueResponse {
         private String uuid;
         private String imei;
 

